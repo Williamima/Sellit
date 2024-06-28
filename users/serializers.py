@@ -24,7 +24,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            'id',
+            'username',
+            'password',
+            'email',
+            'is_superuser'
+        ]
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'id': {'read_only': True},
+        }
 
     def create(self, validated_data: dict) -> User:
         superuser = validated_data.get('is_superuser')
